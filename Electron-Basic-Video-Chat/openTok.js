@@ -41,3 +41,19 @@ session.connect(token, (error) => {
     }
   });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('#shareScreen').addEventListener('click', () => {
+    OT.checkScreenSharingCapability((response) => {
+      console.log(response);
+      if (response.supported) {
+        var screenSharingPublisher = OT.initPublisher('screen-preview', { videoSource: 'screen' });
+        session.publish(screenSharingPublisher, function(error) {
+          if (error) {
+            alert('Could not share the screen: ' + error.message);
+          }
+        });
+      }
+    });
+  });
+});
